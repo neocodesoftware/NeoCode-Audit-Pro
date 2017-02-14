@@ -107,8 +107,8 @@ Opens automatically with the following credentials-- record changes CANNOT be lo
 DataBuzz - http://www.databuzz.com.au/using-executesql-to-query-the-virtual-schemasystem-tables/
 
 ## Contributors
-Paul Nelson
-Joshua Paul
+* Paul Nelson
+* Joshua Paul
 
 ## LICENSE
 MIT
