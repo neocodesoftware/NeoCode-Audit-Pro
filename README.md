@@ -25,11 +25,11 @@ Known bugs, incomplete and unsupported features.  This is essentially our to-do 
 
 * No implementation documentation.
 * Does not support shared deployment (single user).
-* Does not support FileMaker Go, FileMaker WebDirect.
+* Does not support FileMaker Go, FileMaker WebDirect (untested).
 * Does not support server side data events (audits user events only).
 * No error handling.
-* Does not support multiple windows.
-* Does not log insert/update events trigged by importing data.
+* Does not support multiple windows (untested).
+* Does not log insert/update events triggered by importing data.
 * Does not log container data-- yet.
 * Does not support repeating fields.
 * Does not support commas in data.
@@ -42,33 +42,36 @@ Known bugs, incomplete and unsupported features.  This is essentially our to-do 
 Excerpt of the custom function that logs audit events into global variables.
 ```
 Let ([
+	
     ...
-    //####    JSON     ####//
-    ~json_new = "{" & ~json_sql_logtype & ~json_sql_pkid_name & ~Json_sql_pkid_value & ~json_sql_schema & ~json_sql_data & "}"
-    ];
-    Case (
+	//####	JSON 	####//
+	~json_sql_data  =_Aud_Get_AuditEvent (~QFN ; ~TblNum )
 
-    //##### DELETE #####//
-    ~Action = "DELETE" ;
-    _Aud_GV_Log_JSONData ( 1 ; ~json_new  ; ~LogCount ) &
-    _Aud_GV_Log_Max ( 1 ; ~LogCount ) ;
+	];
+	
+	Case ( 
+	//##### NO DATA  #####//
+	IsEmpty ( ~json_sql_data ) ;  
+	""  ; 
+
+	//##### DELETE TYPE  #####//
+	~Action  = "DELETE"  ; 
+	_Aud_Set_AuditEvent ( ~json_sql_data ; ~Action ) ; 
 
 
-    //##### INSERT #####//
-    ~Rec_Open  = 1 ; //and ~Rec_CreateTS  ≠ ~Rec_ModTS  ;
-    _Aud_GV_Log_JSONData ( 1 ; ~json_new  ; ~LogCount ) &
-    _Aud_GV_Log_Max ( 1 ; ~LogCount  )  ;
-   
+	//##### INSERT  #####//
+	~Action = "INSERT" ; 
+	_Aud_Set_AuditEvent ( ~json_sql_data ; ~Action ) ; 
+	
 
-    //##### UPDATE #####//
-    ~Rec_Open   >=  2 and ~Rec_ModTS >= $$Rec_ModCnt ;
-    _Aud_GV_Log_JSONData ( 1 ; ~json_new   ; ~LogCount ) &
-    _Aud_GV_Log_Max ( 1 ; ~LogCount  ) ;
-   
-    //##### DEFAULT  #####//
-    ""
-    )  //END Case
-   
+	//##### UPDATE  #####// 
+	~Action = "UPDATE"  ; 
+	_Aud_Set_AuditEvent ( ~json_sql_data ; ~Action ) ; 
+	
+	//##### DEFAULT  #####//
+
+	"" 
+	)
 ) //END Let
 ```
 
@@ -95,6 +98,7 @@ Opens automatically with the following credentials-- record changes CANNOT be lo
 1. Insert|Update|Delete records
 1. From file menu, select "Window > Show Windows > NeoCode Audit Pro - Service"
 1. Click the button "Show Audit Log"
+1. Review that your record changes have been logged.
 
  
 ## USAGE
