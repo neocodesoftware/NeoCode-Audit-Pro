@@ -113,7 +113,7 @@ Andrew Duncan (DataBuzz) http://www.databuzz.com.au/using-executesql-to-query-th
 ## LICENSE
 MIT
 
-## DEVELOPMENT PLAN
+## ROADMAP
 ### VERSION 0.1 - Technology Preview [release date: 2017-02-14]
 * Logs 'Audit Events' when users Insert, Update and Delete.
 * Logs cascading delete & related record creation.
