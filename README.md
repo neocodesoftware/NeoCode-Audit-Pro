@@ -112,3 +112,46 @@ Andrew Duncan (DataBuzz) http://www.databuzz.com.au/using-executesql-to-query-th
 
 ## LICENSE
 MIT
+
+## DEVELOPMENT PLAN
+### VERSION 0.1 - Technology Preview [release date: 2017-02-14]
+* Logs 'Audit Events' when users Insert, Update and Delete.
+* Logs cascading delete & related record creation.
+* Logs checksum.
+* Supports record revert.
+* Task_Audit.fmp12 events are logged in memory.
+* NAP_Service.fmp12 manages garbage collection while committing events to disk.
+* Uses ExecuteSQL() to dynamically capture database schema; changes to database design are captured.
+* Minimal integration steps (to be documented).
+
+### VERSION 0.2 - Extended Audit Functionality [release date: TBD]
+* Create harness to test load & verify audit results.
+* Test iOS deployment.
+* Escape commas in csv data.
+* Log field repetitions.
+* Log Audit Event table name.
+* Document basic implementation steps.
+
+### VERSION 1.0 - Single Record Recovery [release date: TBD]
+* Add Audit Event Group Id.
+* Rollback/Recover a single record. 
+* Test N.A.P. hosted on FileMaker Server.
+
+### VERSION 1.1 - Errors & Documentation [release date: TBD]
+* Fix issues.
+* Add complete error capture.
+* Create detailed implementation documentation. 
+
+### VERSION 2.0 - Multiple Record Recovery [release date: TBD]
+* Log inserts for imported records.
+* Recover multiple records.
+
+### VERSION 2.1 - Optimization [release date: TBD]
+* Fix issues. 
+* Optimize data scrape (use evaluate instead of ExecuteSQL?).
+* Add ability to limit set cache size; how many events before it's 'forced' to backup. 
+
+### VERSION x.x - Extended Services & Data Types Tools
+* Log Audit Event as JSON/XML.
+* Post Audit Events to Web Application.
+* FMGo sync
